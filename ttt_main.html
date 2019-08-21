@@ -1,0 +1,155 @@
+<!doctype html>
+<head>
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" type="text/css" href="ttt_style.css">
+</head>
+<body>
+	<div>
+		<p><button id="xs">Choose X's</button>
+		<button id="os">Choose O's</button></p>
+	</div>
+	<table id="board">
+		<tr>
+			<td class="grid" id="topLeft"></td>
+			<td class="grid" id="topMid"></td>
+			<td class="grid" id="topRight"></td>
+		</tr>		
+		<tr>
+			<td class="grid" id="midLeft"></td>
+			<td class="grid" id="midMid"></td>
+			<td class="grid" id="midRight"></td>
+		</tr>		
+		<tr>
+			<td class="grid" id="botLeft"></td>
+		    <td class="grid" id="botMid"></td>
+			<td class="grid" id="botRight"></td>
+		</tr>	
+	</table>
+<br><br>
+
+
+<script>
+// Sets the board array (empty)
+var id = function(id){return document.getElementById(id);};
+id('xs').addEventListener("click", beginAsX);
+id('os').addEventListener("click", beginAsO);
+let moves = 0;
+let player1   = '';
+var theBoard = [
+  [	id('topLeft'), id('topMid'), id('topRight')],
+  [ id('midLeft'), id('midMid'), id('midRight')],       
+  [ id('botLeft'), id('botMid'), id('botRight')]
+];
+
+//The 1+ is active from beginning, but then doesn't function for rest of time.. WHYYYYY
+//id('second').innerHTML += "1+";
+let tds = document.getElementsByClassName('grid');
+Array.from(tds).forEach(function(element){
+	element.addEventListener("click", function(){markBox.bind(this)();});
+})
+
+// Detects if player 1 is X or O
+function beginAsX(){ beginGame(); player1 = 'x'; }
+function beginAsO(){ beginGame(); player1 = 'o'; }
+
+// Clears begin prompt and displays board
+function beginGame(){
+    id('xs').style.display = "none";
+    id('os').style.display = "none";
+    id('board').style.display = "table";
+}
+
+// Update moves
+function updateMoves(){
+	moves += 1;
+}
+
+// Marks a box with an X or O, then replaces class with X or O
+function markBox(){
+	if(player1 === 'x'){
+  	id(this.id).innerHTML = "X";
+    id(this.id).className = "X";
+    player1 = 'o';		
+    updateMoves();
+	checkGameState();
+  }
+  else if(player1 === 'o'){
+  	id(this.id).innerHTML = "O";
+    id(this.id).className = "O";
+    player1 = 'x';
+    updateMoves();
+    checkGameState();
+  }
+}
+
+// Cleans the box tags, resets to "grid"
+function cleanBox(){
+	id('topLeft').className = "grid";
+	id('midLeft').className = "grid";
+	id('botLeft').className = "grid";
+	id('topMid').className = "grid";
+	id('midMid').className = "grid";
+	id('botMid').className = "grid";
+	id('topRight').className = "grid";
+	id('midRight').className = "grid";
+	id('botRight').className = "grid";
+    
+    id('topLeft').innerHTML = "";
+	id('midLeft').innerHTML = "";
+	id('botLeft').innerHTML = "";
+	id('topMid').innerHTML = "";
+	id('midMid').innerHTML = "";
+	id('botMid').innerHTML = "";
+	id('topRight').innerHTML = "";
+	id('midRight').innerHTML = "";
+	id('botRight').innerHTML = "";
+}
+
+//Resets the board and moves
+function reset(){
+	moves = 0;
+    cleanBox();
+}
+
+// Checks if any winners are present
+function checkGameState(){
+if(player1 === 'x'){
+  // X ROWS
+  if(id('topLeft').className === "X" && id('topMid').className === "X" && id('topRight').className === "X") {	alert("X won!"); reset();}	
+  if(id('midLeft').className === "X" && id('midMid').className === "X" && id('midRight').className === "X") {	alert("X won!"); reset();}
+  if(id('botLeft').className === "X" && id('botMid').className === "X" && id('botRight').className === "X") {	alert("X won!"); reset();}
+
+  // X COLUMNS
+  if(id('topLeft').className === "X" && id('midLeft').className === "X" && id('botLeft').className === "X") {	alert("X won!"); reset();}
+  if(id('topMid').className === "X" && id('midMid').className === "X" && id('botMid').className === "X") {	alert("X won!"); reset();}
+  if(id('topRight').className === "X" && id('midRight').className === "X" && id('botRight').className === "X") {	alert("X won!"); reset();}
+  
+  // X DIAGONALS
+  if(id('topLeft').className === "X" && id('midMid').className === "X" && id('botRight').className === "X") { alert("X won!"); reset();}  
+  if(id('topRight').className === "X" && id('midMid').className === "X" && id('botLeft').className === "X") { alert("X won!"); reset();}
+}
+
+if(player1 === 'o'){
+  // O ROWS
+  if(id('topLeft').className === "O" && id('topMid').className === "O" && id('topRight').className === "O") {	alert("O won!"); reset();}	
+  if(id('midLeft').className === "O" && id('midMid').className === "O" && id('midRight').className === "O") {	alert("O won!"); reset();}
+  if(id('botLeft').className === "O" && id('botMid').className === "O" && id('botRight').className === "O") {	alert("O won!"); reset();}
+
+  // O COLUMNS
+  if(id('topLeft').className === "O" && id('midLeft').className === "O" && id('botLeft').className === "O") {	alert("O won!"); reset();}
+  if(id('topMid').className === "O" && id('midMid').className === "O" && id('botMid').className === "O") {	alert("O won!"); reset();}
+  if(id('topRight').className === "O" && id('midRight').className === "O" && id('botRight').className === "O") {	alert("O won!"); reset();}
+  
+  // O DIAGONALS
+  if(id('topLeft').className === "O" && id('midMid').className === "O" && id('botRight').className === "O") { alert("O won!"); reset();}  
+  if(id('topRight').className === "O" && id('midMid').className === "O" && id('botLeft').className === "O") { alert("O won!"); reset();}
+}
+
+  if(moves === 10){
+	alert("Tie! No winner.");
+	reset();
+  }
+}
+</script>
+</body>
+</html>
